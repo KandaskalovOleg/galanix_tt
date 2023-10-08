@@ -5,14 +5,12 @@ import imagesData from './../../../assets/data/data.json';
 import './Task2.css';
 
 export const Task2 = () => {
-  const images = imagesData.images;
-
   const [selectedImage, setSelectedImage] = useState(null);
   const [deletedImageIds, setDeletedImageIds] = useState(() => {
     const storedDeletedImageIds = localStorage.getItem('deletedImageIds');
     return storedDeletedImageIds ? JSON.parse(storedDeletedImageIds) : [];
   });
-  const [visibleImageCount, setVisibleImageCount] = useState(images.length - deletedImageIds.length);
+  const [visibleImageCount, setVisibleImageCount] = useState(imagesData.length - deletedImageIds.length);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
@@ -32,7 +30,7 @@ export const Task2 = () => {
   };
 
   const updateVisibleImageCount = () => {
-    setVisibleImageCount(images.length - deletedImageIds.length);
+    setVisibleImageCount(imagesData.length - deletedImageIds.length);
   };
 
 
@@ -60,7 +58,7 @@ export const Task2 = () => {
         <p>{`Date: ${currentDate.toLocaleString()}`}</p>
       </div>
       <div className="image-grid">
-        {images.map((image) => (
+        {imagesData.map((image) => (
           !deletedImageIds.includes(image.id) && (
             <div key={image.id} className="image-container">
               <img
