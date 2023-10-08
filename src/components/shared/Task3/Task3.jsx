@@ -16,6 +16,7 @@ export const Task3 = () => {
     setIsLoading(true);
     handleReset();
 
+
     try {
       setError('');
       const response = await fetch(`http://universities.hipolabs.com/search?country=${country}`);
@@ -43,8 +44,10 @@ export const Task3 = () => {
   const handleReset = () => {
     setCountry('');
     setUniversities();
+    localStorage.removeItem('country');
     setError('');
   };
+  
 
   return (
     isLoading ? (
@@ -54,7 +57,7 @@ export const Task3 = () => {
           width="80"
           ariaLabel="MagnifyingGlass-loading"
           wrapperClass="MagnifyingGlass-wrapper"
-          glassColor = 'white'
+          glassColor = '#eee'
           color = '#333'
         />
       </div>
@@ -73,6 +76,7 @@ export const Task3 = () => {
         </div>
         <p className="error">{error}</p>
         { universities && (
+          <div className="scrolling-container" style={{ overflowX: 'auto', maxWidth: '100%' }}>
           <table className="table">
             <thead className="thead">
               <tr>
@@ -84,7 +88,7 @@ export const Task3 = () => {
             </thead>
             <tbody className="tbody">
               {universities.map((university, index) => (
-                <tr key={university.name} className='tr'>
+                <tr key={index + 1} className='tr'>
                   <td className="td">{index + 1}</td>
                   <td className="td">{university.name}</td>
                   <td className="td">{university.country}</td>
@@ -99,6 +103,7 @@ export const Task3 = () => {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     )
