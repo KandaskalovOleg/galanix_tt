@@ -4,7 +4,7 @@ export const Description = () => {
   
   return (
     <div>
-      chose link
+      Please select the task you want to check
     </div>
   );
 }
