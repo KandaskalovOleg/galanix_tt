@@ -10,18 +10,6 @@
   gap: 20px;
 }
 
-@media (max-width: 900px) {
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 500px) {
-  .image-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
 .image-container {
   position: relative;
   overflow: hidden;
@@ -48,18 +36,6 @@
 
 .image-container:nth-child(4n - 3) img {
   border: 5px solid red;
-}
-
-@media (max-width: 900px) {
-  .image-container:nth-child(2n - 1) img {
-    border: 5px solid red;
-  }
-}
-
-@media (max-width: 500px) {
-  .image-container:nth-child(n) img {
-    border: 5px solid red;
-  }
 }
 
 .delete-button {
@@ -138,4 +114,25 @@
 .page-info {
   text-align: center;
   margin: 20px 0;
+}
+
+
+@media (max-width: 900px) {
+  .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .image-container:nth-child(2n - 1) img {
+    border: 5px solid red;
+  }
+}
+
+@media (max-width: 500px) {
+  .image-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .image-container:nth-child(n) img {
+    border: 5px solid red;
+  }
 }
