@@ -28,26 +28,38 @@ export const Task3 = () => {
   const handleSearch = async (searchCountry) => {
     setIsLoading(true);
     handleReset();
-
+  
     try {
       setError('');
       const response = await fetch(`http://universities.hipolabs.com/search?country=${searchCountry}`);
       if (!response.ok) {
         throw new Error('Request error.');
       }
-
+  
       const data = await response.json();
-
+  
       if (data.length === 0) {
         throw new Error('Country`s name is not correct');
       }
-
-      setUniversities(data);
+  
+      const savedSelectedIndices = JSON.parse(localStorage.getItem(`selectedIndices${searchCountry}`) || '[]');
+  
+      const universitiesWithSelected = data.map((university, index) => ({
+        ...university,
+        isSelected: savedSelectedIndices.includes(index),
+      }));
+  
+      setUniversities(universitiesWithSelected);
+  
+      const selectedCount = universitiesWithSelected.filter((university) => university.isSelected).length;
+      setSelectedCount(selectedCount);
+  
       setIsLoading(false);
       localStorage.setItem('country', searchCountry);
     } catch (error) {
       setError(error.message);
       setUniversities([]);
+      setSelectedCount(0);
       setIsLoading(false);
     }
   };
@@ -64,9 +76,25 @@ export const Task3 = () => {
     const updatedUniversities = [...universities];
     updatedUniversities[index].isSelected = !updatedUniversities[index].isSelected;
     setUniversities(updatedUniversities);
-
+  
     const selectedCount = updatedUniversities.filter((university) => university.isSelected).length;
     setSelectedCount(selectedCount);
+
+    const savedCountry = localStorage.getItem('country');
+    const savedSelectedIndices = JSON.parse(localStorage.getItem(`selectedIndices${savedCountry}`) || '[]');
+
+    if (updatedUniversities[index].isSelected) {
+      if (!savedSelectedIndices.includes(index)) {
+        savedSelectedIndices.push(index);
+      }
+    } else {
+      const indexToRemove = savedSelectedIndices.indexOf(index);
+      if (indexToRemove !== -1) {
+        savedSelectedIndices.splice(indexToRemove, 1);
+      }
+    }
+
+    localStorage.setItem(`selectedIndices${savedCountry}`, JSON.stringify(savedSelectedIndices));
   };
 
   return (
